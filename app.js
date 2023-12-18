@@ -4,23 +4,17 @@ const cors=require('cors');
 const multer=require('multer');
 const path=require('path');
 const csv=require('csvtojson')
-
-const dir=path.join(__dirname,'/public/uploads/startup_funding.csv');
+const mongoose=require('mongoose');
     
-async  function abc(){
-        csv()
-        .fromFile(dir)
-        .then((response)=>{
-            console.log(response);
-        })  
-    }
-// abc();
-
 
 app.use(cors())
 app.use(express.json());
 
-app.use(express.static(path.resolve(__dirname,'public')));
+
+//connecting to mongoDB
+mongoose.connect('mongodb://localhost:27017/Startups', { useNewUrlParser: true, useUnifiedTopology: true })
+
+// app.use(express.static(path.resolve(__dirname,'public')));
 
 
 //first i uploaded the startup_funding.csv file
@@ -50,5 +44,15 @@ app.use(express.static(path.resolve(__dirname,'public')));
 //         res.send('errorr',err)
 //      }
 // })
+const dir=path.join(__dirname,'/public/uploads/startup_funding.csv');
+async  function abc(){
+    csv()
+    .fromFile(dir)
+    .then((response)=>{
+        console.log(response);
+    })  
+}
+// abc();
+
 
 module.exports=app

@@ -24,6 +24,29 @@ const startupController = {
             res.status(500).json({ error: 'Internal Server Error' });
         }
 
+    },
+
+      // creating a new startup
+      createNewStartup:async(req,res)=>{
+          console.log(req.body);
+        try{
+            const data=req.body;
+            const newStartup=new Startup({
+                company_name:data.companyName,
+                city:data.city,
+                starting_year:data.startingYear,
+                founders:data.founders,
+                industry:data.industry,
+                funding_amount:data.fundingAmount
+            })
+            const saveData=await newStartup.save();
+            res.status(200).json(saveData);
+             
+        }
+        catch(err){
+            console.error('Error creating a new startup:', err);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
     }
 
 

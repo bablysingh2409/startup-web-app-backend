@@ -19,7 +19,8 @@ app.use('',startupRoutes);
 //connecting to mongoDB
 mongoose.connect('mongodb://localhost:27017/Startups', { useNewUrlParser: true, useUnifiedTopology: true })
 
-
+// Flag to check if data has been processed
+let isDataProcessed = false;
 const dir = path.join(__dirname, '/public/uploads/startup_funding.csv');
 async function processData() {
     try {
@@ -40,7 +41,8 @@ async function processData() {
         
         console.log(saveData);
         }
-
+         // Updating the flag after data processing
+        isDataProcessed = true;
         console.log('Data processing complete.');
     } catch (err) {
         console.error('Error processing data:', err);
@@ -49,7 +51,13 @@ async function processData() {
         mongoose.connection.close();
     }
 }
-// processData();
+app.use((req, res, next) => {
+  if (!isDataProcessed) {
+      processData();
+  }
+  next();
+});
+ 
 
 // app.use(express.static(path.resolve(__dirname,'public')));
 
@@ -81,15 +89,7 @@ async function processData() {
 //         res.send('errorr',err)
 //      }
 // })
-// const dir=path.join(__dirname,'/public/uploads/startup_funding.csv');
-// async  function abc(){
-//     csv()
-//     .fromFile(dir)
-//     .then((response)=>{
-//         console.log(response);
-//     })  
-// }
-// // abc();
+
 
 
 module.exports = app

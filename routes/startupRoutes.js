@@ -8,5 +8,6 @@ router.get('/startups/:industry',startupController.getStartupByIndustry);
 router.get('/search',startupController.searchStartups);
 router.post('/createstartup',startupController.createNewStartup);
 
-module.exports=router;
+module.exports=router; 
 
+ 

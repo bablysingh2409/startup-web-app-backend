@@ -28,7 +28,7 @@ const startupController = {
 
     // creating a new startup
     createNewStartup: async (req, res) => {
-        console.log(req.body);
+        // console.log(req.body);
         try {
             const data = req.body;
             const newStartup = new Startup({
